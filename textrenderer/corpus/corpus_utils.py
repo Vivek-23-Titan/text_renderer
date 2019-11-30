@@ -18,7 +18,8 @@ def corpus_factory(corpus_mode: str, chars_file: str, corpus_dir: str, length: i
 
     corpus_class = corpus_classes[corpus_mode]
 
-    if length == 10 and corpus_mode == 'eng':
-        length = 3
+    # changed the length from 3 to 1
+    if length == 3 and corpus_mode == 'eng':
+        length = 1
 
     return corpus_class(chars_file=chars_file, corpus_dir=corpus_dir, length=length)

@@ -33,11 +33,20 @@ lock = mp.Lock()
 counter = mp.Value('i', 0)
 STOP_TOKEN = 'kill'
 
+## change this to 
+#flags = parse_args()
+#cfg = load_config(flags.config_file)
+
+# to this
 flags = parse_args()
+flags.config_file = './configs/test.yaml' #增加
 cfg = load_config(flags.config_file)
+
 
 fonts = font_utils.get_font_paths_from_list(flags.fonts_list)
 bgs = utils.load_bgs(flags.bg_dir)
+
+
 
 corpus = corpus_factory(flags.corpus_mode, flags.chars_file, flags.corpus_dir, flags.length)
 

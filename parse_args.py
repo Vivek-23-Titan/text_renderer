@@ -8,24 +8,24 @@ def parse_args():
 
     parser.add_argument('--num_img', type=int, default=20, help="Number of images to generate")
 
-    parser.add_argument('--length', type=int, default=10,
+    parser.add_argument('--length', type=int, default=3,
                         help='Chars(chn) or words(eng) in a image. For eng corpus mode, default length is 3')
 
     parser.add_argument('--clip_max_chars', action='store_true', default=False,
                         help='For training a CRNN model, max number of chars in an image'
                              'should less then the width of last CNN layer.')
 
-    parser.add_argument('--img_height', type=int, default=32)
-    parser.add_argument('--img_width', type=int, default=256,
+    parser.add_argument('--img_height', type=int, default=40)
+    parser.add_argument('--img_width', type=int, default=160,
                         help="If 0, output images will have different width")
 
-    parser.add_argument('--chars_file', type=str, default='./data/chars/chn.txt',
+    parser.add_argument('--chars_file', type=str, default='./data/chars/eng.txt',
                         help='Chars allowed to be appear in generated images.')
 
     parser.add_argument('--config_file', type=str, default='./configs/default.yaml',
                         help='Set the parameters when rendering images')
 
-    parser.add_argument('--fonts_list', type=str, default='./data/fonts_list/chn.txt',
+    parser.add_argument('--fonts_list', type=str, default='./data/fonts_list/eng.txt',
                         help='Fonts file path to use')
 
     parser.add_argument('--bg_dir', type=str, default='./data/bg',
@@ -36,7 +36,7 @@ def parse_args():
                         help='When corpus_mode is chn or eng, text on image will randomly selected from corpus.'
                              'Recursively find all txt file in corpus_dir')
 
-    parser.add_argument('--corpus_mode', type=str, default='chn', choices=['random', 'chn', 'eng', 'list'],
+    parser.add_argument('--corpus_mode', type=str, default='eng', choices=['random', 'chn', 'eng', 'list'],
                         help='Different corpus type have different load/get_sample method'
                              'random: random pick chars from chars file'
                              'chn: pick continuous chars from corpus'
