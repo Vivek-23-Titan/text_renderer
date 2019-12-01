@@ -92,5 +92,8 @@ You can see how perspectiveTransform works and all bounding/rotated boxes.
 ![debug_demo](./imgs/debug_demo.jpg)
 
 
+
+# Update:
+defautl-english branch is set to generate english words 
 # Todo
 See https://github.com/Sanster/text_renderer/projects/1
