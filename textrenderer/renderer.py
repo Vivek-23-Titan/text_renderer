@@ -51,13 +51,13 @@ class Renderer(object):
 
         #_________________________________Change_Spaces______________________________________________________
 
-        r = random.randint(0,4)
-        if r==0 or r==1:
-              pass
-        elif r==2:
+        r = random.randint(0,5)
+        if r==0:
               word += ' '*5
-        else:
+        elif r==1:
               word += ' '*10
+        else:
+              pass
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
