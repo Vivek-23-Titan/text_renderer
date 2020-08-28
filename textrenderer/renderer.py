@@ -612,27 +612,7 @@ class Renderer(object):
         return word_new
         
         #_________________________________________________________________________________________________
-            
-        if self.clip_max_chars and len(word) > self.max_chars:
-            word = word[:self.max_chars]
 
-        font_path = random.choice(self.fonts)
-
-        if self.strict:
-            unsupport_chars = self.font_unsupport_chars[font_path]
-            for c in word:
-                if c == ' ':
-                    continue
-                if c in unsupport_chars:
-                    print('Retry pick_font(), \'%s\' contains chars \'%s\' not supported by font %s' % (
-                        word, c, font_path))
-                    raise Exception
-
-        # Font size in point
-        font_size = random.randint(self.cfg.font_size.min, self.cfg.font_size.max)
-        font = ImageFont.truetype(font_path, font_size)
-        
-        print(word_new)
 
     def get_word_size(self, font, word):
         """
