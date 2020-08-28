@@ -65,7 +65,7 @@ class Renderer(object):
         #if self.debug:
         #___________________________________Change________________________________________________________
         if True:
-            word_img = draw_box(word_img, text_box_pnts, (0, 255, 155))
+            word_img = draw_box(word_img, text_box_pnts, (0, 0, 0))
 
         if apply(self.cfg.curve):
             word_img, text_box_pnts = self.remaper.apply(word_img, text_box_pnts, word_color)
@@ -90,7 +90,7 @@ class Renderer(object):
             word_img, crop_bbox = self.crop_img(word_img, text_box_pnts_transformed)
             
             #___________________________Change of getting the entire Box around the text__________________________
-            word_img = draw_bbox(word_img, crop_bbox, (0, 0, 0))
+            #word_img = draw_bbox(word_img, crop_bbox, (0, 0, 0))
             #_____________________________________________________________________________________________________
 
         self.dmsg("After crop_img")
@@ -296,10 +296,10 @@ class Renderer(object):
         #________________________________Change______________________________________________
         
         text_box_pnts = [
-            [text_x+2, text_y+2],
-            [text_x-2 + word_width, text_y+2],
-            [text_x-2 + word_width, text_y + word_height-2],
-            [text_x+2, text_y-2 + word_height]
+            [text_x, text_y],
+            [text_x + word_width, text_y],
+            [text_x + word_width, text_y + word_height],
+            [text_x, text_y + word_height]
         ]
 
         return np_img, text_box_pnts, word_color
