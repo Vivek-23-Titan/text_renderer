@@ -86,6 +86,10 @@ class Renderer(object):
             word_img = draw_bbox(word_img, crop_bbox, (255, 0, 0))
         else:
             word_img, crop_bbox = self.crop_img(word_img, text_box_pnts_transformed)
+            
+            #___________________________Change of getting the entire Box around the text__________________________
+            word_img = draw_bbox(word_img, crop_bbox, (0, 0, 0))
+            #_____________________________________________________________________________________________________
 
         self.dmsg("After crop_img")
 
