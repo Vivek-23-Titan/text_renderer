@@ -50,13 +50,14 @@ class Renderer(object):
         word, font, word_size = self.pick_font(img_index)
         self.dmsg("after pick font")
         
-        #r = random.randint(0,3)
-        #if r==0:
-        #      pass
-        #elif r==1:
-        #      word += ' '*5
-        #else:
-        #      word += ' '*10
+        #_________________________________Change_Spaces______________________________________________________
+        r = random.randint(0,3)
+        if r==0:
+              pass
+        elif r==1:
+              word += ' '*5
+        else:
+              word += ' '*10
 
 
         # Background's height should much larger than raw word image's height,
@@ -64,6 +65,7 @@ class Renderer(object):
         bg = self.gen_bg(width=word_size[0] * 8, height=word_size[1] * 8)
         word_img, text_box_pnts, word_color, piece_widths = self.draw_text_on_bg(word, font, bg)
         self.dmsg("After draw_text_on_bg")
+        print(piece_widths)
 
         if apply(self.cfg.crop):
             text_box_pnts = self.apply_crop(text_box_pnts, self.cfg.crop)
@@ -80,6 +82,7 @@ class Renderer(object):
             x_init, y = text_box_pnts[0][0], text_box_pnts[0][1]
             w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][1] - y
             x = x_init
+            #piece_widths[-1] = w_init
             
             for i in range(len(word)):
                 w = piece_widths[i] + x_init
@@ -386,6 +389,11 @@ class Renderer(object):
                 y_offset = c_offset[1]
 
         char_space_width = int(height * np.random.uniform(self.cfg.random_space.min, self.cfg.random_space.max))
+        
+        #_________________________________________________Change Character spacing__________________________________
+        char_space_width += 4
+        
+        #___________________________________________________________________________________________________________
 
         width += (char_space_width * (len(word) - 1))
 
@@ -400,7 +408,7 @@ class Renderer(object):
             # self.draw_text_wrapper(draw, c, c_x, c_y - y_offset, font, word_color, force_text_border)
             draw.text((c_x, c_y - y_offset), c, fill=word_color, font=font)
 
-            c_x += (chars_size[i][0] + char_space_width+5)
+            c_x += (chars_size[i][0] + char_space_width)
 
             piece_widths.append(c_x - text_x)
 
