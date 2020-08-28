@@ -27,7 +27,7 @@ random_space:
 # Do remap with sin()
 # Currently this process is very slow!
 curve:
-  enable: True
+  enable: false
   fraction: 0.3
   period: 360  # degree, sin 函数的周期
   min: 1 # sin 函数的幅值范围
