@@ -69,7 +69,8 @@ class Renderer(object):
             word_img = draw_box(word_img, text_box_pnts, (0, 0, 0))
             # Drawing boxes
             x_init, y = text_box_pnts[0][0], text_box_pnts[0][0]
-            w_init, h = text_box_pnts[2][0] - x, text_box_pnts[2][0] - y
+            w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][0] - y
+            x = x_init
             for i in range(len(word)):
                 w = piece_widths[i] + x_init
                 word_img = cv2.rectangle(word_img,(x,y),(w,h),(0,0,0),1)
