@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from PIL import ImageFont, Image, ImageDraw
 from tenacity import retry
+
 import string
 import random as rnd
 
@@ -53,15 +54,18 @@ class Renderer(object):
 
         #_________________________________Change_Spaces______________________________________________________
 
-        #r = random.randint(0,5)
-        #if r==0:
-        #      word += ' '*5
-        #elif r==1:
-        #      word += ' '*10
-        #else:
-        #      pass
-        
         word = self.gen_word()
+
+        r = random.randint(0,3)
+        if len(word) == 8:
+              pass
+        else:
+            if r == 0:
+                word += ' '*rnd.randint(1,16)
+            else:
+                pass
+
+        
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
@@ -396,7 +400,6 @@ class Renderer(object):
             # Min chars y offset as word y offset
             # Assume only y offset
             c_offset = font.getoffset(c)
-            #print('C OFF:', c_offset, 'Y OFF:', y_offset)
             if c_offset[1] < y_offset:
                 y_offset = c_offset[1]
 
@@ -567,12 +570,11 @@ class Renderer(object):
         font = ImageFont.truetype(font_path, font_size)
 
         return word, font, self.get_word_size(font, word)
-    
-    #______________________________________________Change_Random_Generation__________________________________________
+
+     #______________________________________________Change_Random_Generation__________________________________________
     
     def gen_word(self):
-    
-        
+           
         pool_alpha = string.ascii_uppercase
         pool_num = "0123456789"
         
@@ -593,18 +595,7 @@ class Renderer(object):
                 current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len - 4)])
             else:
                 current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len)])
-            
-            
-        #___________________________Change to add space inside boxes______________________________________
-        space_exists = rnd.randint(0, 5)
-        if seq_len == 8:
-            pass
-        else:
-            if space_exists != 3 or space_exists != 4:
-                pass
-            else:
-                space_seq_len = rnd.randint(1, 15)
-                current_string += "".join([" " for _ in range(space_seq_len)])
+
                 
         word_new = current_string
         #print(word)
@@ -613,7 +604,7 @@ class Renderer(object):
         
         #_________________________________________________________________________________________________
 
-
+    
     def get_word_size(self, font, word):
         """
         Get word size removed offset
