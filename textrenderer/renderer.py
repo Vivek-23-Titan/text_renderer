@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from PIL import ImageFont, Image, ImageDraw
 from tenacity import retry
+import matplotlib.pyplot as plt
 
 import libs.math_utils as math_utils
 from libs.utils import draw_box, draw_bbox, prob, apply
@@ -277,18 +278,10 @@ class Renderer(object):
         else:
             word_color = self.get_gray_word_color(bg, text_x, text_y, word_height, word_width)
 
-        if apply(self.cfg.random_space):
+        if True:
             text_x, text_y, word_width, word_height = self.draw_text_with_random_space(draw, font, word, word_color,
                                                                                        bg_width, bg_height)
             np_img = np.array(pil_img).astype(np.float32)
-        else:
-            if apply(self.cfg.seamless_clone):
-                np_img = self.draw_text_seamless(font, bg, word, word_color, word_height, word_width, offset)
-            else:
-                self.draw_text_wrapper(draw, word, text_x - offset[0], text_y - offset[1], font, word_color)
-                # draw.text((text_x - offset[0], text_y - offset[1]), word, fill=word_color, font=font)
-
-                np_img = np.array(pil_img).astype(np.float32)
 
         #________________________________Change to obtain the BBox______________________________________________
         
@@ -359,13 +352,18 @@ class Renderer(object):
         chars_size = []
         y_offset = 10 ** 5
         for c in word:
-            #____________________________Change the font size______________________________________________________
             size = font.getsize(c)
-            size[0] = size[0]+40
-            #______________________________________________________________________________________________________
             chars_size.append(size)
 
-            width += size[0]
+            r = random.randint(0,4)
+            if r==0 or r==4:
+              add = 2
+            elif r==1:
+              add = 8
+            else:
+              add = 15
+
+            width += size[0]+add
             # set max char height as word height
             if size[1] > height:
                 height = size[1]
@@ -386,11 +384,17 @@ class Renderer(object):
         c_x = text_x
         c_y = text_y
 
+        piece_widths = []
+        print(word)
         for i, c in enumerate(word):
             # self.draw_text_wrapper(draw, c, c_x, c_y - y_offset, font, word_color, force_text_border)
             draw.text((c_x, c_y - y_offset), c, fill=word_color, font=font)
 
-            c_x += (chars_size[i][0] + char_space_width)
+            c_x += (chars_size[i][0] + char_space_width+5)
+
+            piece_widths.append(c_x - text_x)
+
+        print(piece_widths)
 
         return text_x, text_y, width, height
 
