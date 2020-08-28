@@ -4,7 +4,6 @@ import numpy as np
 import cv2
 from PIL import ImageFont, Image, ImageDraw
 from tenacity import retry
-import matplotlib.pyplot as plt
 
 import libs.math_utils as math_utils
 from libs.utils import draw_box, draw_bbox, prob, apply
@@ -49,8 +48,9 @@ class Renderer(object):
     def gen_img(self, img_index):
         word, font, word_size = self.pick_font(img_index)
         self.dmsg("after pick font")
-        
+
         #_________________________________Change_Spaces______________________________________________________
+
         r = random.randint(0,3)
         if r==0:
               pass
@@ -59,13 +59,11 @@ class Renderer(object):
         else:
               word += ' '*10
 
-
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
         bg = self.gen_bg(width=word_size[0] * 8, height=word_size[1] * 8)
         word_img, text_box_pnts, word_color, piece_widths = self.draw_text_on_bg(word, font, bg)
         self.dmsg("After draw_text_on_bg")
-        print(piece_widths)
 
         if apply(self.cfg.crop):
             text_box_pnts = self.apply_crop(text_box_pnts, self.cfg.crop)
@@ -73,11 +71,12 @@ class Renderer(object):
         if apply(self.cfg.line):
             word_img, text_box_pnts = self.liner.apply(word_img, text_box_pnts, word_color)
             self.dmsg("After draw line")
-
+        
         #if self.debug:
         #___________________________________Change________________________________________________________
         if True:
             word_img = draw_box(word_img, text_box_pnts, (0, 0, 0))
+
             # Drawing boxes
             x_init, y = text_box_pnts[0][0], text_box_pnts[0][1]
             w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][1] - y
@@ -112,7 +111,6 @@ class Renderer(object):
         else:
             word_img, crop_bbox = self.crop_img(word_img, text_box_pnts_transformed)
 
-            
         self.dmsg("After crop_img")
 
         if apply(self.cfg.noise):
@@ -304,14 +302,23 @@ class Renderer(object):
             text_x, text_y, word_width, word_height, piece_widths = self.draw_text_with_random_space(draw, font, word, word_color,
                                                                                        bg_width, bg_height)
             np_img = np.array(pil_img).astype(np.float32)
+        #else:
+        #    if apply(self.cfg.seamless_clone):
+        #        np_img = self.draw_text_seamless(font, bg, word, word_color, word_height, word_width, offset)
+        #    else:
+        #        self.draw_text_wrapper(draw, word, text_x - offset[0], text_y - offset[1], font, word_color)
+                # draw.text((text_x - offset[0], text_y - offset[1]), word, fill=word_color, font=font)
+
+        #        np_img = np.array(pil_img).astype(np.float32)
+
 
         #________________________________Change to obtain the BBox______________________________________________
-        
+
         text_box_pnts = [
-            [text_x-2, text_y-2],
-            [text_x+2 + word_width, text_y-2],
-            [text_x+2 + word_width, text_y+1 + word_height],
-            [text_x-2, text_y+1 + word_height]
+            [text_x-2, text_y-3],
+            [text_x+2 + word_width, text_y-3],
+            [text_x+2 + word_width, text_y + word_height-3],
+            [text_x-2, text_y + word_height-3]
         ]
 
         return np_img, text_box_pnts, word_color, piece_widths
@@ -377,7 +384,7 @@ class Renderer(object):
             size = font.getsize(c)
             chars_size.append(size)
 
-            width += size[0]#+2
+            width += size[0]
             # set max char height as word height
             if size[1] > height:
                 height = size[1]
@@ -389,7 +396,7 @@ class Renderer(object):
                 y_offset = c_offset[1]
 
         char_space_width = int(height * np.random.uniform(self.cfg.random_space.min, self.cfg.random_space.max))
-        
+
         #_________________________________________________Change Character spacing__________________________________
         char_space_width += 4
         
@@ -404,14 +411,13 @@ class Renderer(object):
         c_y = text_y
 
         piece_widths = []
+
         for i, c in enumerate(word):
             # self.draw_text_wrapper(draw, c, c_x, c_y - y_offset, font, word_color, force_text_border)
             draw.text((c_x, c_y - y_offset), c, fill=word_color, font=font)
 
             c_x += (chars_size[i][0] + char_space_width)
-
-            piece_widths.append(c_x - text_x)
-
+            piece_widths.append(c_x-text_x)
 
         return text_x, text_y, width, height, piece_widths
 
