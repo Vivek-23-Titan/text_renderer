@@ -359,7 +359,10 @@ class Renderer(object):
         chars_size = []
         y_offset = 10 ** 5
         for c in word:
+            #____________________________Change the font size______________________________________________________
             size = font.getsize(c)
+            size[0] = size[0]+4
+            #______________________________________________________________________________________________________
             chars_size.append(size)
 
             width += size[0]
