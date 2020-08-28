@@ -68,8 +68,8 @@ class Renderer(object):
         if True:
             word_img = draw_box(word_img, text_box_pnts, (0, 0, 0))
             # Drawing boxes
-            x_init, y = text_box_pnts[0][0], text_box_pnts[0][0]
-            w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][0] - y
+            x_init, y = text_box_pnts[0][0], text_box_pnts[0][1]
+            w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][1] - y
             x = x_init
             
             for i in range(len(word)):
