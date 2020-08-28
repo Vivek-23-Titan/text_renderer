@@ -49,6 +49,15 @@ class Renderer(object):
     def gen_img(self, img_index):
         word, font, word_size = self.pick_font(img_index)
         self.dmsg("after pick font")
+        
+        #r = random.randint(0,3)
+        #if r==0:
+        #      pass
+        #elif r==1:
+        #      word += ' '*5
+        #else:
+        #      word += ' '*10
+
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
@@ -365,15 +374,7 @@ class Renderer(object):
             size = font.getsize(c)
             chars_size.append(size)
 
-            r = random.randint(0,4)
-            if r==0 or r==4:
-              add = 2
-            elif r==1:
-              add = 8
-            else:
-              add = 15
-
-            width += size[0]+add
+            width += size[0]#+2
             # set max char height as word height
             if size[1] > height:
                 height = size[1]
