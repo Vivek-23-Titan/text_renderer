@@ -385,7 +385,6 @@ class Renderer(object):
         c_y = text_y
 
         piece_widths = []
-        print(word)
         for i, c in enumerate(word):
             # self.draw_text_wrapper(draw, c, c_x, c_y - y_offset, font, word_color, force_text_border)
             draw.text((c_x, c_y - y_offset), c, fill=word_color, font=font)
@@ -394,9 +393,8 @@ class Renderer(object):
 
             piece_widths.append(c_x - text_x)
 
-        print(piece_widths)
 
-        return text_x, text_y, width, height
+        return text_x, text_y, width, height, piece_widths
 
     def draw_text_wrapper(self, draw, text, x, y, font, text_color):
         """
