@@ -62,7 +62,9 @@ class Renderer(object):
             word_img, text_box_pnts = self.liner.apply(word_img, text_box_pnts, word_color)
             self.dmsg("After draw line")
 
-        if self.debug:
+        #if self.debug:
+        #___________________________________Change________________________________________________________
+        if True:
             word_img = draw_box(word_img, text_box_pnts, (0, 255, 155))
 
         if apply(self.cfg.curve):
