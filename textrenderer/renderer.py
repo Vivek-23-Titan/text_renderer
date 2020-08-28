@@ -71,9 +71,11 @@ class Renderer(object):
             x_init, y = text_box_pnts[0][0], text_box_pnts[0][0]
             w_init, h = text_box_pnts[2][0] - x_init, text_box_pnts[2][0] - y
             x = x_init
+            
             for i in range(len(word)):
                 w = piece_widths[i] + x_init
-                word_img = cv2.rectangle(word_img,(x,y),(w,h),(0,0,0),1)
+                bbox_points = [x, y, w, h]
+                word_img = draw_bbox(word_img, bbox_points, (0, 0, 0))
                 x = w
 
         if apply(self.cfg.curve):
