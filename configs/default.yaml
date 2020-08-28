@@ -40,11 +40,11 @@ crop:
 
   # top and bottom will applied equally
   top:
-    min: 5
-    max: 10 # in pixel, this value should small than img_height
+    min: 0
+    max: 5 # in pixel, this value should small than img_height
   bottom:
-    min: 5
-    max: 10 # in pixel, this value should small than img_height
+    min: 0
+    max: 5 # in pixel, this value should small than img_height
 
 # Use image in bg_dir as background for text
 img_bg:
