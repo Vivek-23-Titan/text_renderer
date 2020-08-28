@@ -4,6 +4,8 @@ import numpy as np
 import cv2
 from PIL import ImageFont, Image, ImageDraw
 from tenacity import retry
+import string
+import random as rnd
 
 import libs.math_utils as math_utils
 from libs.utils import draw_box, draw_bbox, prob, apply
@@ -570,8 +572,6 @@ class Renderer(object):
     
     def gen_word(self):
     
-        word = self.corpus.get_sample(img_index)
-        #print(word)
         
         pool_alpha = string.ascii_uppercase
         pool_num = "0123456789"
@@ -592,7 +592,7 @@ class Renderer(object):
                 current_string += "".join([rnd.choice(pool_alpha) for _ in range(4)])
                 current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len - 4)])
             else:
-                current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len - 4)])
+                current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len)])
             
             
         #___________________________Change to add space inside boxes______________________________________
