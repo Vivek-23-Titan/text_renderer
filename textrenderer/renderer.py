@@ -51,13 +51,13 @@ class Renderer(object):
 
         #_________________________________Change_Spaces______________________________________________________
 
-        r = random.randint(0,5)
-        if r==0:
-              word += ' '*5
-        elif r==1:
-              word += ' '*10
-        else:
-              pass
+        #r = random.randint(0,5)
+        #if r==0:
+        #      word += ' '*5
+        #elif r==1:
+        #      word += ' '*10
+        #else:
+        #      pass
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
@@ -541,8 +541,48 @@ class Renderer(object):
             font: truetype
             size: word size, removed offset (width, height)
         """
+        #______________________________________________Change_Random_Generation__________________________________________
         word = self.corpus.get_sample(img_index)
-
+        print(word)
+        
+        pool_alpha = string.ascii_uppercase
+        pool_num = "0123456789"
+        
+        min_seq_len = 8
+        max_seq_len = 15
+        
+        
+        strings = []
+        
+        current_string = ""
+        seq_len = rnd.randint(min_seq_len, max_seq_len)
+        num_alpha = rnd.randint(0, 2)
+        if seq_len == 8:
+            current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len)])
+        else:
+            if num_alpha == 0:
+                current_string += "".join([rnd.choice(pool_alpha) for _ in range(4)])
+                current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len - 4)])
+            else:
+                current_string += "".join([rnd.choice(pool_num) for _ in range(seq_len - 4)])
+            
+            
+        #___________________________Change to add space inside boxes______________________________________
+        space_exists = rnd.randint(0, 5)
+        if seq_len == 8:
+            pass
+        else:
+            if space_exists != 3 or space_exists != 4:
+                pass
+            else:
+                space_seq_len = rnd.randint(1, 15)
+                current_string += "".join([" " for _ in range(space_seq_len)])
+                
+        word = current_string
+        print(word)
+        
+        #_________________________________________________________________________________________________
+            
         if self.clip_max_chars and len(word) > self.max_chars:
             word = word[:self.max_chars]
 
