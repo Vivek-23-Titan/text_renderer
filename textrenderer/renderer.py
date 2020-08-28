@@ -51,10 +51,10 @@ class Renderer(object):
 
         #_________________________________Change_Spaces______________________________________________________
 
-        r = random.randint(0,3)
-        if r==0:
+        r = random.randint(0,4)
+        if r==0 or r==1:
               pass
-        elif r==1:
+        elif r==2:
               word += ' '*5
         else:
               word += ' '*10
@@ -392,6 +392,7 @@ class Renderer(object):
             # Min chars y offset as word y offset
             # Assume only y offset
             c_offset = font.getoffset(c)
+            #print('C OFF:', c_offset, 'Y OFF:', y_offset)
             if c_offset[1] < y_offset:
                 y_offset = c_offset[1]
 
