@@ -296,10 +296,10 @@ class Renderer(object):
         #________________________________Change______________________________________________
         
         text_box_pnts = [
-            [text_x-2, text_y-1],
-            [text_x+2 + word_width, text_y-1],
-            [text_x+2 + word_width, text_y+2 + word_height],
-            [text_x-2, text_y+2 + word_height]
+            [text_x-2, text_y-2],
+            [text_x+2 + word_width, text_y-2],
+            [text_x+2 + word_width, text_y+1 + word_height],
+            [text_x-2, text_y+1 + word_height]
         ]
 
         return np_img, text_box_pnts, word_color
