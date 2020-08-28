@@ -58,6 +58,8 @@ class Renderer(object):
         #      word += ' '*10
         #else:
         #      pass
+        
+        word = gen_word()
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
@@ -541,9 +543,35 @@ class Renderer(object):
             font: truetype
             size: word size, removed offset (width, height)
         """
-        #______________________________________________Change_Random_Generation__________________________________________
         word = self.corpus.get_sample(img_index)
-        print(word)
+
+        if self.clip_max_chars and len(word) > self.max_chars:
+            word = word[:self.max_chars]
+
+        font_path = random.choice(self.fonts)
+
+        if self.strict:
+            unsupport_chars = self.font_unsupport_chars[font_path]
+            for c in word:
+                if c == ' ':
+                    continue
+                if c in unsupport_chars:
+                    print('Retry pick_font(), \'%s\' contains chars \'%s\' not supported by font %s' % (
+                        word, c, font_path))
+                    raise Exception
+
+        # Font size in point
+        font_size = random.randint(self.cfg.font_size.min, self.cfg.font_size.max)
+        font = ImageFont.truetype(font_path, font_size)
+
+        return word, font, self.get_word_size(font, word)
+    
+    #______________________________________________Change_Random_Generation__________________________________________
+    
+    def gen_word(self):
+    
+        word = self.corpus.get_sample(img_index)
+        #print(word)
         
         pool_alpha = string.ascii_uppercase
         pool_num = "0123456789"
@@ -578,8 +606,10 @@ class Renderer(object):
                 space_seq_len = rnd.randint(1, 15)
                 current_string += "".join([" " for _ in range(space_seq_len)])
                 
-        word = current_string
-        print(word)
+        word_new = current_string
+        #print(word)
+        
+        return word_new
         
         #_________________________________________________________________________________________________
             
@@ -601,8 +631,8 @@ class Renderer(object):
         # Font size in point
         font_size = random.randint(self.cfg.font_size.min, self.cfg.font_size.max)
         font = ImageFont.truetype(font_path, font_size)
-
-        return word, font, self.get_word_size(font, word)
+        
+        print(word_new)
 
     def get_word_size(self, font, word):
         """
