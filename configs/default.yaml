@@ -19,7 +19,7 @@ font_color:
 # By default, text is drawed by Pillow with (https://stackoverflow.com/questions/43828955/measuring-width-of-text-python-pil)
 # If `random_space` is enabled, some text will be drawed char by char with a random space
 random_space:
-  enable: True
+  enable: false
   fraction: 0.3
   min: -0.1 # -0.1 will make chars very close or even overlapped
   max: 0.1
@@ -35,16 +35,16 @@ curve:
 
 # random crop text height
 crop:
-  enable: True
-  fraction: 0.2
+  enable: false
+  fraction: 0.5
 
   # top and bottom will applied equally
   top:
-    min: 0
-    max: 5 # in pixel, this value should small than img_height
+    min: 5
+    max: 10 # in pixel, this value should small than img_height
   bottom:
-    min: 0
-    max: 5 # in pixel, this value should small than img_height
+    min: 5
+    max: 10 # in pixel, this value should small than img_height
 
 # Use image in bg_dir as background for text
 img_bg:
