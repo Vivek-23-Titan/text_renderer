@@ -1,6 +1,6 @@
 # Small font_size will make text looks like blured/prydown
 font_size:
-  min: 16
+  min: 14
   max: 23
 
 # choose Text color range
