@@ -279,7 +279,7 @@ class Renderer(object):
             word_color = self.get_gray_word_color(bg, text_x, text_y, word_height, word_width)
 
         if True:
-            text_x, text_y, word_width, word_height = self.draw_text_with_random_space(draw, font, word, word_color,
+            text_x, text_y, word_width, word_height, piece_widths = self.draw_text_with_random_space(draw, font, word, word_color,
                                                                                        bg_width, bg_height)
             np_img = np.array(pil_img).astype(np.float32)
 
