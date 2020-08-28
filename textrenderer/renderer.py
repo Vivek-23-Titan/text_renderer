@@ -53,7 +53,7 @@ class Renderer(object):
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
         bg = self.gen_bg(width=word_size[0] * 8, height=word_size[1] * 8)
-        word_img, text_box_pnts, word_color = self.draw_text_on_bg(word, font, bg)
+        word_img, text_box_pnts, word_color, piece_widths = self.draw_text_on_bg(word, font, bg)
         self.dmsg("After draw_text_on_bg")
 
         if apply(self.cfg.crop):
@@ -67,6 +67,13 @@ class Renderer(object):
         #___________________________________Change________________________________________________________
         if True:
             word_img = draw_box(word_img, text_box_pnts, (0, 0, 0))
+            # Drawing boxes
+            x_init, y = text_box_pnts[0][0], text_box_pnts[0][0]
+            w_init, h = text_box_pnts[2][0] - x, text_box_pnts[2][0] - y
+            for i in range(len(word)):
+                w = piece_widths[i] + x_init
+                word_img = cv2.rectangle(word_img,(x,y),(w,h),(0,0,0),1)
+                x = w
 
         if apply(self.cfg.curve):
             word_img, text_box_pnts = self.remaper.apply(word_img, text_box_pnts, word_color)
@@ -292,7 +299,7 @@ class Renderer(object):
             [text_x-2, text_y+1 + word_height]
         ]
 
-        return np_img, text_box_pnts, word_color
+        return np_img, text_box_pnts, word_color, piece_widths
 
     def draw_text_seamless(self, font, bg, word, word_color, word_height, word_width, offset):
         # For better seamlessClone
