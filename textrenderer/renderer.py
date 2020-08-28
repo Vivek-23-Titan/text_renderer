@@ -59,7 +59,7 @@ class Renderer(object):
         #else:
         #      pass
         
-        word = gen_word()
+        word = self.gen_word()
 
         # Background's height should much larger than raw word image's height,
         # to make sure we can crop full word image after apply perspective
