@@ -73,8 +73,9 @@ class Renderer(object):
         word_img, text_box_pnts, word_color, piece_widths = self.draw_text_on_bg(word, font, bg)
         self.dmsg("After draw_text_on_bg")
 
-        if apply(self.cfg.crop):
+        if True:
             text_box_pnts = self.apply_crop(text_box_pnts, self.cfg.crop)
+
 
         if apply(self.cfg.line):
             word_img, text_box_pnts = self.liner.apply(word_img, text_box_pnts, word_color)
@@ -97,6 +98,7 @@ class Renderer(object):
                 word_img = draw_bbox(word_img, bbox_points, (0, 0, 0))
                 x = w
 
+        
         if apply(self.cfg.curve):
             word_img, text_box_pnts = self.remaper.apply(word_img, text_box_pnts, word_color)
             self.dmsg("After remapping")
@@ -221,7 +223,9 @@ class Renderer(object):
                   np.around(bbox[2] / scale),
                   np.around(bbox[3] / scale))
 
-        x_offset, y_offset = self.random_xy_offset(s_bbox_height, s_bbox_width, self.out_height, dst_width)
+        #_________________________________Change to start alphabets from the beginning
+        #x_offset, y_offset = self.random_xy_offset(s_bbox_height, s_bbox_width, self.out_height, dst_width)
+        x_offset, y_offset = 0, 0
 
         dst_bbox = (
             self.int_around((s_bbox[0] - x_offset) * scale),
